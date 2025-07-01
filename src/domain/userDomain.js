@@ -21,7 +21,7 @@ export const createNewUserData = async ({ email, plainPassword, nama }) => {
     email,
     password: hashedPassword,
     nama,
-    role: "CALON_MAHASISWA", // Default role
+    role: "ADMIN", // Default role
   };
 };
 
@@ -39,3 +39,18 @@ export const isPasswordValid = async (plainPassword, hashedPassword) => {
 
   return true;
 };
+
+export const updateUserData = (user, updateData) => {
+  // Validasi data yang akan diupdate
+  if (updateData.email && !updateData.email.includes("@")) {
+    throw new Error("Email tidak valid.");
+  }
+
+  // Update data pengguna
+  return {
+    ...user,
+    ...updateData,
+    password: user.password, // Jangan ubah password jika tidak diupdate
+  };
+};
+

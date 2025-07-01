@@ -50,3 +50,57 @@ export const loginUserUseCase = async ({ email, password }) => {
 
   return { token };
 };
+
+
+export const getAllUsersUseCase = async () => {
+  // 1. Ambil semua user menggunakan repository
+  const users = await userRepository.findAll();
+
+  // 2. Hilangkan password dari setiap user yang dikembalikan
+  return users.map(({ password, ...user }) => user);
+};
+
+export const getUserByIdUseCase = async (userId) => {
+  // 1. Cari user berdasarkan ID
+  const user = await userRepository.findById(userId);
+  if (!user) {
+    throw new Error("User tidak ditemukan.");
+  }
+
+  // 2. Hilangkan password dari data yang dikembalikan
+  const { password, ...userToReturn } = user;
+  return userToReturn;
+};
+
+export const updateUserUseCase = async (userId, updateData) => {
+  // 1. Cari user berdasarkan ID
+  const user = await userRepository.findById(userId);
+  if (!user) {
+    throw new Error("User tidak ditemukan.");
+  }
+
+  // 2. Validasi dan update data menggunakan fungsi domain
+  const updatedUserData = await userDomain.updateUserData(user, updateData);
+
+  // 3. Simpan perubahan menggunakan repository
+  const updatedUser = await userRepository.update(userId, updatedUserData);
+
+  // Hilangkan password dari data yang dikembalikan
+  const { password, ...userToReturn } = updatedUser;
+  return userToReturn;
+};
+
+export const deleteUserUseCase = async (userId) => {
+  // 1. Cari user berdasarkan ID
+  const user = await userRepository.findById(userId);
+  if (!user) {
+    throw new Error("User tidak ditemukan.");
+  }
+
+  // 2. Hapus user menggunakan repository
+  await userRepository.delete(userId);
+
+  // 3. Kembalikan data user yang dihapus (tanpa password)
+  const { password, ...userToReturn } = user;
+  return userToReturn;
+};

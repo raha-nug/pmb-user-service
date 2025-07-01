@@ -25,3 +25,57 @@ export const login = async (req, res) => {
     res.status(401).json({ message: "Email atau password salah" });
   }
 };
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await userApplicationService.getAllUsersUseCase();
+    res.status(200).json({
+      message: "Berhasil mendapatkan semua pengguna",
+      data: users,
+    });
+  } catch (error) {
+    console.error("Error saat mendapatkan semua pengguna:", error);
+    res.status(500).json({ message: "Terjadi kesalahan pada server" });
+  }
+}
+
+export const getUserById = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const user = await userApplicationService.getUserByIdUseCase(userId);
+    res.status(200).json({
+      message: "Berhasil mendapatkan pengguna",
+      data: user,
+    });
+  } catch (error) {
+    console.error("Error saat mendapatkan pengguna:", error);
+    res.status(404).json({ message: "Pengguna tidak ditemukan" });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const updatedUser = await userApplicationService.updateUserUseCase(userId, req.body);
+    res.status(200).json({
+      message: "Pengguna berhasil diperbarui",
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error saat memperbarui pengguna:", error);
+    res.status(404).json({ message: "Pengguna tidak ditemukan" });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    await userApplicationService.deleteUserUseCase(userId);
+    res.status(200).json({
+      message: "Pengguna berhasil dihapus",
+    });
+  } catch (error) {
+    console.error("Error saat menghapus pengguna:", error);
+    res.status(404).json({ message: "Pengguna tidak ditemukan" });
+  }
+};

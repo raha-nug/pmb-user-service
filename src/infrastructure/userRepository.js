@@ -28,5 +28,8 @@ const userRepository = {
       where: { id },
     });
   },
+  async findAll() {
+    return await prisma.user.findMany();
+  },
 };
 export { userRepository };
