@@ -14,7 +14,7 @@ import {
 router.post("/register", validate(registerSchema), userController.register);
 router.post("/login", validate(loginSchema), userController.login);
 router.get("/profile", authenticateToken, (req, res) => {
-  res.status(200).json({ message: "Profile Berhasil Diakses" });
+  res.status(200).json(req.user);
 });
 
 export default router;

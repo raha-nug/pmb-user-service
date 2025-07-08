@@ -21,7 +21,7 @@ export const createNewUserData = async ({ email, plainPassword, nama }) => {
     email,
     password: hashedPassword,
     nama,
-    role: "ADMIN", // Default role
+    role: "CALON_MAHASISWA", // Default role
   };
 };
 
