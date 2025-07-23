@@ -7,6 +7,20 @@ export const register = async (req, res) => {
       message: "Registrasi berhasil",
       data: user,
     });
+
+    //send email
+    await fetch(
+      `${process.env.NOTIFIKASI_SERVICE_URL}/api/notifikasi/handle-event`,
+      {
+        body: {
+          eventType: "AkunBerhasilDibuatEvent",
+          payload: {
+            nama: user.nama,
+            email: user.email,
+          },
+        },
+      }
+    );
   } catch (error) {
     console.error("Error saat registrasi:", error);
     res.status(500).json({ message: "Terjadi kesalahan pada server" });
@@ -37,7 +51,7 @@ export const getAllUsers = async (req, res) => {
     console.error("Error saat mendapatkan semua pengguna:", error);
     res.status(500).json({ message: "Terjadi kesalahan pada server" });
   }
-}
+};
 
 export const getUserById = async (req, res) => {
   try {
@@ -56,7 +70,10 @@ export const getUserById = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const updatedUser = await userApplicationService.updateUserUseCase(userId, req.body);
+    const updatedUser = await userApplicationService.updateUserUseCase(
+      userId,
+      req.body
+    );
     res.status(200).json({
       message: "Pengguna berhasil diperbarui",
       data: updatedUser,
