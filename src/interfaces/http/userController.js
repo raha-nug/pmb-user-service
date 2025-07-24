@@ -29,10 +29,11 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { token } = await userApplicationService.loginUserUseCase(req.body);
+    const loginData = await userApplicationService.loginUserUseCase(req.body);
     res.status(200).json({
       message: "Login berhasil",
-      token,
+      token: loginData.token,
+      data: loginData.data,
     });
   } catch (error) {
     console.error("Error saat login:", error);

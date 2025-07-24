@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import * as userDomain  from "../domain/userDomain.js";
+import * as userDomain from "../domain/userDomain.js";
 import { userRepository } from "../infrastructure/userRepository.js";
 
 export const registerUserUseCase = async (registrationData) => {
@@ -27,7 +27,6 @@ export const registerUserUseCase = async (registrationData) => {
   return userToReturn;
 };
 
-
 export const loginUserUseCase = async ({ email, password }) => {
   // 1. Cari user menggunakan repository
   const user = await userRepository.findByEmail(email);
@@ -48,9 +47,10 @@ export const loginUserUseCase = async ({ email, password }) => {
     { expiresIn: "1d" }
   );
 
-  return { token };
-};
+  const { password, ...userToReturn } = user;
 
+  return { data: userToReturn, token };
+};
 
 export const getAllUsersUseCase = async () => {
   // 1. Ambil semua user menggunakan repository
