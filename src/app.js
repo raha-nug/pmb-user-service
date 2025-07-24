@@ -12,5 +12,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", userRoutes);
 app.use("/api/auth", userAuth);
+app.get("/",(req, res)=>{
+    res.send("Selamat datang di User Service API")
+})
 
 export default app;
