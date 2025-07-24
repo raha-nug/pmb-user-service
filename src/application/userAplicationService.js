@@ -47,9 +47,8 @@ export const loginUserUseCase = async ({ email, password }) => {
     { expiresIn: "1d" }
   );
 
-  const { password, ...userToReturn } = user;
 
-  return { data: userToReturn, token };
+  return { data: user, token };
 };
 
 export const getAllUsersUseCase = async () => {
