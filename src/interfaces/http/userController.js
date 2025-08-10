@@ -31,7 +31,17 @@ export const login = async (req, res) => {
   try {
     const loginData = await userApplicationService.loginUserUseCase(req.body);
 
-    const {password,...userToReturn} = loginData.data
+    const { password, ...userToReturn } = loginData.data;
+
+    const expiredAt = Date.now() + 24 * 60 * 60 * 1000;
+
+    res.cookie("token", loginData.token, {
+      httpOnly: true, // Tidak bisa diakses JS
+      secure: process.env.NODE_ENV === "production", // Hanya HTTPS di production
+      sameSite: "none", // Cegah CSRF
+      expires: new Date(expiredAt),
+    });
+
     res.status(200).json({
       message: "Login berhasil",
       token: loginData.token,
