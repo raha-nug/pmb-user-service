@@ -37,8 +37,8 @@ export const login = async (req, res) => {
 
     res.cookie("token", loginData.token, {
       httpOnly: true, // Tidak bisa diakses JS
-      secure: process.env.NODE_ENV === "production", // Hanya HTTPS di production
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: true,
+      sameSite: "none",
       expires: new Date(expiredAt),
     });
 
