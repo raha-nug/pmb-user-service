@@ -7,13 +7,6 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-  })
-);
-
 const allowedOrigins = [
   "http://localhost:3000", // Frontend development
   // "https://pmb-frontend.vercel.app",
