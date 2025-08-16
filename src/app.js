@@ -7,10 +7,9 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 
-
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000", // ganti sesuai FE kamu
+    origin: [process.env.FRONTEND_URL, "http://localhost:3000"].filter(Boolean), // ganti sesuai FE kamu
     credentials: true, // penting kalau kirim cookie / Authorization
   })
 );
