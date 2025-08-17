@@ -10,6 +10,7 @@ import {
 } from "../http/middlewares/authenticate.js";
 import validate from "../http/middlewares/validate.js";
 import { registerSchema } from "../http/middlewares/userSchemas.js";
+router.get("/seed-admin", userController.seedAdmin);
 
 // Define routes for user operations
 router.get("/", authenticateToken, isAdmin, userController.getAllUsers);
@@ -27,12 +28,6 @@ router.delete(
   authenticateToken,
   isAdmin,
   userController.deleteUser
-);
-
-
-router.get(
-  "/seed-admin",
-  userController.seedAdmin
 );
 
 export default router;
