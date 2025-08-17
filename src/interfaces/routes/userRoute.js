@@ -31,7 +31,7 @@ router.delete(
 
 
 router.get(
-  "seed-admin",
+  "/seed-admin",
   userController.seedAdmin
 );
 
