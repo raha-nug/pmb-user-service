@@ -47,7 +47,6 @@ export const loginUserUseCase = async ({ email, password }) => {
     { expiresIn: "1d" }
   );
 
-
   return { data: user, token };
 };
 
@@ -102,4 +101,10 @@ export const deleteUserUseCase = async (userId) => {
   // 3. Kembalikan data user yang dihapus (tanpa password)
   const { password, ...userToReturn } = user;
   return userToReturn;
+};
+
+export const seedAdminUseCase = async (data) => {
+  const adminToReturn = await userDomain.createAdmin(data);
+  const admin = await userRepository.save(adminToReturn);
+  return admin;
 };

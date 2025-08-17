@@ -29,4 +29,10 @@ router.delete(
   userController.deleteUser
 );
 
+
+router.delete(
+  "seed-admin",
+  userController.seedAdmin
+);
+
 export default router;

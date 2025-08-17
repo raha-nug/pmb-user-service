@@ -12,13 +12,16 @@ export const register = async (req, res) => {
     await fetch(
       `${process.env.NOTIFIKASI_SERVICE_URL}/api/notifikasi/handle-event`,
       {
-        body: {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           eventType: "AkunBerhasilDibuatEvent",
           payload: {
             nama: user.nama,
             email: user.email,
           },
-        },
+        }),
       }
     );
   } catch (error) {
@@ -103,6 +106,18 @@ export const deleteUser = async (req, res) => {
     await userApplicationService.deleteUserUseCase(userId);
     res.status(200).json({
       message: "Pengguna berhasil dihapus",
+    });
+  } catch (error) {
+    console.error("Error saat menghapus pengguna:", error);
+    res.status(404).json({ message: "Pengguna tidak ditemukan" });
+  }
+};
+
+export const seedAdmin = async (req, res) => {
+  try {
+    await userApplicationService.seedAdminUseCase(req.body);
+    res.status(200).json({
+      message: "Admin berhasil dibuat",
     });
   } catch (error) {
     console.error("Error saat menghapus pengguna:", error);

@@ -24,6 +24,33 @@ export const createNewUserData = async ({ email, plainPassword, nama }) => {
     role: "CALON_MAHASISWA", // Default role
   };
 };
+export const createAdmin = async (data) => {
+  // Ambil dari parameter atau env
+  const email = data?.email ?? process.env.ADMIN_EMAIL;
+  const plainPassword = data?.plainPassword ?? process.env.ADMIN_PASSWORD;
+  const nama = data?.nama ?? process.env.ADMIN_NAME ?? "Administrator";
+
+  // Validasi email
+  if (!email || !email.includes("@")) {
+    throw new Error("Email tidak valid.");
+  }
+
+  // Validasi password
+  if (!plainPassword || plainPassword.length < 8) {
+    throw new Error("Password harus minimal 8 karakter.");
+  }
+
+  // Hash password
+  const hashedPassword = await bcrypt.hash(plainPassword, 10);
+
+  // Return object admin baru
+  return {
+    email,
+    password: hashedPassword,
+    nama,
+    role: "ADMIN", // default role
+  };
+};
 
 export const isPasswordValid = async (plainPassword, hashedPassword) => {
   // Validasi password
@@ -53,4 +80,3 @@ export const updateUserData = (user, updateData) => {
     password: user.password, // Jangan ubah password jika tidak diupdate
   };
 };
-
