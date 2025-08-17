@@ -30,7 +30,7 @@ router.delete(
 );
 
 
-router.delete(
+router.get(
   "seed-admin",
   userController.seedAdmin
 );

@@ -120,7 +120,6 @@ export const seedAdmin = async (req, res) => {
       message: "Admin berhasil dibuat",
     });
   } catch (error) {
-    console.error("Error saat menghapus pengguna:", error);
-    res.status(404).json({ message: "Pengguna tidak ditemukan" });
+    res.status(400).json({ message: error.message });
   }
 };
