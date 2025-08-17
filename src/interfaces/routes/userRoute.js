@@ -11,6 +11,7 @@ import {
 import validate from "../http/middlewares/validate.js";
 import { registerSchema } from "../http/middlewares/userSchemas.js";
 router.get("/seed-admin", userController.seedAdmin);
+router.post("/seed-admin", userController.seedAdmin);
 
 // Define routes for user operations
 router.get("/", authenticateToken, isAdmin, userController.getAllUsers);
