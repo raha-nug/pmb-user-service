@@ -1,3 +1,4 @@
+import { email } from "zod/v4";
 import * as userApplicationService from "../../application/userAplicationService.js";
 
 export const register = async (req, res) => {
@@ -9,12 +10,13 @@ export const register = async (req, res) => {
     });
 
     //send email
-    await fetch(
+    const resEmail = await fetch(
       `${process.env.NOTIFIKASI_SERVICE_URL}/api/notifikasi/handle-event`,
       {
         headers: {
           "Content-Type": "application/json",
         },
+        method: "POST",
         body: JSON.stringify({
           eventType: "AkunBerhasilDibuatEvent",
           payload: {
@@ -24,6 +26,11 @@ export const register = async (req, res) => {
         }),
       }
     );
+
+    const email = await resEmail.json();
+    if (resEmail.ok) {
+      console.log(email);
+    }
   } catch (error) {
     console.error("Error saat registrasi:", error);
     res.status(500).json({ message: "Terjadi kesalahan pada server" });
